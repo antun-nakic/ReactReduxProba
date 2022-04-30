@@ -1,5 +1,6 @@
 import { Counter } from "./features/counter/Counter";
 import SentenceComposer from "./features/sentence/SentenceComposer";
+import SentenceComposerKlasni from "./features/sentence/SentenceComposerKlasni";
 
 import "./App.css";
 
@@ -11,6 +12,8 @@ function App() {
       <Counter />
       <br />
       <SentenceComposer />
+      <br />
+      <SentenceComposerKlasni />
     </div>
   );
 }
