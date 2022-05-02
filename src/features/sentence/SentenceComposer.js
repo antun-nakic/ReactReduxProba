@@ -1,7 +1,14 @@
 import React from "react";
 import { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { handleInputChange, addWordToSentence } from "./sentenceSlice";
+import {
+  handleInputChange,
+  addWordToSentence,
+  loadTodos,
+  fetchTodos,
+  fetchMovies,
+} from "./sentenceSlice";
+import axios from "axios";
 
 const SentenceComposer = () => {
   const sentence = useSelector((state) => {
@@ -16,6 +23,15 @@ const SentenceComposer = () => {
     dispatch(addWordToSentence());
   };
 
+  async function ucitajAsinkrono() {
+    try {
+      let response = await axios.get("https://gorest.co.in/public/v2/todos");
+      dispatch(loadTodos(response.data));
+    } catch (error) {
+      dispatch(loadTodos(error));
+    }
+  }
+
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -27,6 +43,16 @@ const SentenceComposer = () => {
           }
           value={sentence.input}></input>
       </form>
+      <button onClick={() => ucitajAsinkrono()}>
+        Učitaj asinkrono todo iteme
+      </button>
+      <button onClick={() => dispatch(fetchTodos())}>
+        Učitaj asinkrono u akscijskoj fuknici todo iteme
+      </button>
+      <button
+        onClick={() => dispatch(fetchMovies(referencaInputa.current.value))}>
+        Potraži filmove asinkrono
+      </button>
       <dl>
         <dt>Trentuna rečenica</dt>
         <dd>{sentence.totalSentence}</dd>
